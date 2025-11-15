@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Integral: Gestión de Inventarios y Planificación de la Producción</title>
+    <!-- Carga de Tailwind CSS para un diseño responsivo y moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración explícita de MathJax para asegurar el reconocimiento de delimitadores -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <!-- Script de MathJax para renderizar ecuaciones LaTeX/MathML -->
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
+    <style>
+        /* Configuración de la fuente Inter y estilos base */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+            color: #1e293b;
+        }
+        .section-title {
+            border-left: 5px solid #0f4c75; /* Azul Institucional */
+            padding-left: 1rem;
+        }
+        .formula {
+            background-color: #e0f2f7;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Inter', sans-serif;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-xl p-6 sm:p-10">
+
+        <!-- Encabezado del Proyecto -->
+        <header class="text-center mb-10 border-b-4 border-amber-500 pb-4">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-[#0f4c75] mb-2">
+                Proyecto Integral de Supply Chain:
+            </h1>
+            <h2 class="text-xl sm:text-2xl font-semibold text-gray-700">
+                Inventarios, Clasificación y Planeación de la Producción 2026
+            </h2>
+            <p class="mt-2 text-md text-gray-500 italic">
+                (Base de datos: 300 SKUs y datos reales de histórico, forecast y LT)
+            </p>
+        </header>
+
+        <!-- Introducción y Objetivo -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold section-title text-[#2a628f] mb-4">
+                Objetivo General
+            </h3>
+            <p class="text-gray-700 leading-relaxed mb-4 font-bold text-lg text-emerald-700 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                ¡IMPORTANTE! Todos los cálculos y análisis deben ser ejecutados utilizando los datos históricos, de costos, de Lead Time y de pronóstico de demanda proporcionados.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                El propósito de este trabajo es aplicar metodologías avanzadas de gestión de inventarios y planeación de la producción para optimizar el capital de trabajo y garantizar un nivel de servicio coherente con la estrategia de la empresa.
+            </p>
+        </section>
+
+        <!-- PASO 1: Clasificación ABC-XYZ -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold section-title text-[#2a628f] mb-4">
+                1. Clasificación de Inventario ABC-XYZ
+            </h3>
+            <p class="mb-4 text-gray-700">
+                La clasificación debe basarse en el valor de uso histórico y la variabilidad de la demanda histórica.
+            </p>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">1.1. Análisis ABC (Por Valor)</h4>
+            <ul class="list-disc list-inside ml-4 text-gray-700">
+                <li><strong>Criterio:</strong> Valor de uso o Consumo Anual en Dinero (Demanda Histórica Total $\times$ Costo Unitario).</li>
+                <li><strong>Definición de Clases:</strong>
+                    <ul class="list-circle list-inside ml-6 text-sm mt-1">
+                        <li><strong>A:</strong> ~80% del valor total (Alta prioridad de gestión).</li>
+                        <li><strong>B:</strong> ~15% del valor total (Prioridad media).</li>
+                        <li><strong>C:</strong> ~5% del valor total (Baja prioridad, pero alto volumen).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">1.2. Análisis XYZ (Por Variabilidad)</h4>
+            <ul class="list-disc list-inside ml-4 text-gray-700">
+                <li><strong>Criterio:</strong> Coeficiente de Variación (CV) de la Demanda.</li>
+                <li><strong>Fórmula:</strong> $$\text{CV} = \frac{\sigma_D}{\bar{D}}$$</li>
+                <li>
+                    <ul class="list-none text-sm ml-2">
+                        <li>Donde $\sigma_D$ es la Desviación Estándar de la Demanda y $\bar{D}$ es la Demanda Promedio.</li>
+                    </ul>
+                </li>
+                <li><strong>Definición de Clases:</strong>
+                    <ul class="list-circle list-inside ml-6 text-sm mt-1">
+                        <li><strong>X:</strong> $\text{CV} \leq 0.20$ (Demanda estable, predecible).</li>
+                        <li><strong>Y:</strong> $0.20 < \text{CV} \leq 0.50$ (Demanda con variación moderada).</li>
+                        <li><strong>Z:</strong> $\text{CV} > 0.50$ (Demanda errática e impredecible).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">1.3. Matriz Combinada (Entrega)</h4>
+            <p class="text-gray-700">
+                Genere una matriz 3x3 (ABC vs. XYZ) y clasifique cada SKU en una de las nueve celdas (ej. AX, BZ, CY). Esta matriz debe ser el resultado principal de este paso.
+            </p>
+        </section>
+
+        <!-- PASO 2: Cálculo de Stock de Seguridad e Inventario Óptimo -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold section-title text-[#2a628f] mb-4">
+                2. Stock de Seguridad (SS) e Inventario Óptimo
+            </h3>
+            <p class="mb-4 text-gray-700">
+                Seleccione un mínimo de <strong>tres SKUs representativos</strong> (por ejemplo, AX, BY, CZ) para los cuales calculará su Stock de Seguridad (SS) y su Inventario Óptimo.
+            </p>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">2.1. Stock de Seguridad (SS)</h4>
+            <p class="text-gray-700">
+                Calcule el SS usando la siguiente fórmula, considerando la variabilidad del Lead Time (LT) y de la Demanda.
+            </p>
+            <div class="formula mt-3">
+                <p>$$\text{SS} = Z \cdot \sigma_{DL}$$</p>
+                <p class="text-sm mt-2 font-bold text-gray-800">Cálculo de $\sigma_{DL}$ (Desviación Estándar de la Demanda durante el Lead Time):</p>
+                <div class="bg-white p-3 rounded-md border border-blue-200 mt-2">
+                    <!-- FÓRMULA CLARIFICADA -->
+                    <p class="text-base">$$\sigma_{DL} = \sqrt{\bar{LT} \cdot \sigma_D^2 + \bar{D}^2 \cdot \sigma_{LT}^2}$$</p>
+                    <ul class="list-none text-sm mt-2 ml-2">
+                        <li><strong>$Z$:</strong> Factor de servicio (puntuación Z). Use valores de NS iniciales: A=98%, B=95%, C=90%.</li>
+                        <li><strong>$\bar{LT}$ y $\sigma_{LT}$:</strong> Promedio y Desviación Estándar del Lead Time (días).</li>
+                        <li><strong>$\bar{D}$ y $\sigma_D$:</strong> Demanda Promedio Diaria y Desviación Estándar de la Demanda Diaria (unidades).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">2.2. Inventario Óptimo / Punto de Reorden (ROP)</h4>
+            <p class="text-gray-700">
+                Utilice el SS calculado para definir el punto de reorden (ROP).
+            </p>
+            <div class="formula mt-3">
+                <!-- FÓRMULA CLARIFICADA -->
+                <p>$$\text{ROP} = (\bar{D} \cdot \bar{LT}) + \text{SS}$$</p>
+                <p class="text-sm mt-2">Donde $\bar{D} \cdot \bar{LT}$ es la Demanda Promedio durante el Lead Time Promedio.</p>
+            </div>
+        </section>
+
+        <!-- PASO 3: Plan de Producción 2026 -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold section-title text-[#2a628f] mb-4">
+                3. Plan Agregado de Producción (PAP) 2026
+            </h3>
+            <p class="mb-4 text-gray-700">
+                Desarrolle un Plan Agregado de Producción para los 12 meses de 2026.
+            </p>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">3.1. Proyección de la Demanda (Forecast)</h4>
+            <ul class="list-disc list-inside ml-4 text-gray-700">
+                <li><strong>UTILICE</strong> la proyección de demanda mensual para 2026 proporcionada como la demanda a satisfacer para su Plan Agregado de Producción (PAP).</li>
+                <li><strong>Nota:</strong> Si el pronóstico contiene solo la demanda total, deberá desagregarla para sus SKUs representativos si es necesario. Si contiene SKUs individuales, úselo directamente.</li>
+            </ul>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">3.2. Estrategia de Planificación</h4>
+            <ul class="list-disc list-inside ml-4 text-gray-700">
+                <li>Seleccione y justifique una estrategia de PAP (Caza, Nivelación o Mixta).</li>
+                <li>El inventario final de cada mes debe reflejar el Stock de Seguridad objetivo calculado en el Paso 2, especialmente para los SKUs de clase A y B.</li>
+            </ul>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">3.3. Entregable del Plan</h4>
+            <p class="text-gray-700">
+                Presente una tabla de Plan Agregado de Producción mensual que muestre:
+                <ul class="list-disc list-inside ml-6 mt-2 text-sm">
+                    <li>Demanda Proyectada (Unidades)</li>
+                    <li>Producción Planeada (Unidades)</li>
+                    <li>Inventario Inicial</li>
+                    <li>Inventario Final Proyectado (que debe incluir el SS objetivo)</li>
+                    <li>Horas de Mano de Obra (o Costo de Producción asociado)</li>
+                </ul>
+            </p>
+        </section>
+
+        <!-- PASO 4: Inventario Mensual y Nivel de Servicio Óptimo -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold section-title text-[#2a628f] mb-4">
+                4. Valoración de Inventario y Propuesta de Nivel de Servicio
+            </h3>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">4.1. Inventario Mensual en Dólares</h4>
+            <ul class="list-disc list-inside ml-4 text-gray-700">
+                <li>Utilice los resultados del Inventario Final Proyectado del Paso 3 (en unidades) y el costo unitario de los productos.</li>
+                <li>Calcule el valor total del inventario (en Dólares USD) al final de cada mes de 2026:
+                    <div class="formula my-3 text-base">
+                        $$\text{Valor Inventario Final} = \sum_{i=1}^{N} (\text{InvFinal}_i \times \text{Costo}_i)$$
+                    </div>
+                    <ul class="list-none text-sm ml-2">
+                        <li>Donde $N$ es el número total de SKUs, $\text{InvFinal}_i$ es el inventario final del $SKU_i$ y $\text{Costo}_i$ es su costo unitario.</li>
+                    </ul>
+                </li>
+                <li>Muestre una gráfica de la evolución del valor del inventario total a lo largo de 2026.</li>
+            </ul>
+
+            <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">4.2. Propuesta de Nivel de Servicio Óptimo</h4>
+            <p class="text-gray-700">
+                Basándose en la Clasificación ABC-XYZ y la valoración económica, proponga y justifique un <strong>Nivel de Servicio (NS)</strong> para cada una de las principales categorías de la matriz (ej., AX, BY, CZ).
+            </p>
+            <ul class="list-disc list-inside ml-4 text-gray-700">
+                <li><strong>Justificación Económica:</strong> Explique por qué el NS propuesto maximiza la rentabilidad. Un NS alto para un producto Clase C podría implicar un costo de inventario excesivo (alto capital inmovilizado) para un bajo impacto en ventas.</li>
+                <li><strong>Entregable:</strong> Presente una tabla resumida con la categoría (AX, BY, CZ, etc.), el Nivel de Servicio Inicial (Asumido en el Paso 2), y el Nivel de Servicio Óptimo Propuesto, junto con una breve justificación por categoría.</li>
+            </ul>
+        </section>
+
+        <!-- Conclusiones y Resumen de Entregables -->
+        <section class="mt-10 pt-6 border-t-2 border-gray-200">
+            <h3 class="text-2xl font-bold text-center text-[#0f4c75] mb-4">
+                Resumen de Entregables
+            </h3>
+            <ol class="space-y-3 list-decimal list-inside ml-4 text-gray-700">
+                <li>Tabla de Clasificación ABC-XYZ completa para todos los SKUs.</li>
+                <li>Cálculo detallado del Stock de Seguridad ($\text{SS}$) y el Punto de Reorden ($\text{ROP}$) para los 300 SKUs seleccionados.</li>
+                <li>Plan Agregado de Producción (PAP) mensual para 2026 (tabla con 6 columnas).</li>
+                <li>Gráfico de la evolución mensual del Valor Total del Inventario ($USD$).</li>
+                <li>Propuesta y Justificación del Nivel de Servicio Óptimo ($\text{NS}$) por categoría de clasificación.</li>
+            </ol>
+        </section>
+
+    </div>
+</body>
+</html>
